@@ -100,6 +100,8 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import javafx.stage.Window;
 import javafx.util.Callback;
+
+import java.io.Console;
 import java.security.AccessControlContext;
 
 import java.util.ArrayList;
@@ -1002,9 +1004,15 @@ public abstract class Node implements EventTarget, Styleable {
     private final ChangeListener<Window> sceneWindowChangedListener = (scene, oldWindow, newWindow) -> {
         // Replace the windowShowingListener and call updateTreeShowing()
         if (oldWindow != null) {
+            if (this.getClass().getName().contains("GridPane"))
+                System.out.println("sceneWindowChangedListener - Removing window.showing listener for " + this.toString());
+
             oldWindow.showingProperty().removeListener(windowShowingChangedListener);
         }
         if (newWindow != null) {
+            if (this.getClass().getName().contains("GridPane"))
+                System.out.println("sceneWindowChangedListener - Removing window.showing listener for " + this.toString());
+
             newWindow.showingProperty().addListener(windowShowingChangedListener);
         }
         updateTreeShowing();
@@ -1077,6 +1085,9 @@ public abstract class Node implements EventTarget, Styleable {
 
             Window window = oldScene.windowProperty().get();
             if (window != null) {
+                if (this.getClass().getName().contains("GridPane"))
+                    System.out.println("invalidatedScenes - Removing window.showing listener for " + this.toString());
+
                 window.showingProperty().removeListener(windowShowingChangedListener);
             }
         }
@@ -1085,6 +1096,9 @@ public abstract class Node implements EventTarget, Styleable {
 
             Window window = newScene.windowProperty().get();
             if (window != null) {
+                if (this.getClass().getName().contains("GridPane"))
+                    System.out.println("invalidatedScenes - Adding window.showing listener for " + this.toString());
+
                 window.showingProperty().addListener(windowShowingChangedListener);
             }
 
